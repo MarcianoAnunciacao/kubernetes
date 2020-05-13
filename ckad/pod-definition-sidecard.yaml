@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sidecar-pod
+spec:
+  containers:
+    - name: simple-sidecard
+      image: dohoangkhiem/simple-webapp
+      ports:
+        - containerPort: 8080
+
+    - name: log-agent
+      image: logcache/log-cache

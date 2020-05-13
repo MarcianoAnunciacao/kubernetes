@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: simple-webapp
+  labels:
+    name: simple-probe-web-app
+spec:
+  containers:
+    - name: simple-webapp
+      image: simplelogin/app
+      ports:
+        - containerPort: 8080
+      readinessProbe:
+          httpGet:
+              path: /api/ready
+              port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          failureThreshold: 8
+
+      #To execute a TCP Socket
+      #readinessProbe:
+          #tcpSocket:
+              #port: 3306
+
+      #To execute a command
+      #readinessProbe:
+            #exec:
+            #command:
+              # - cat
+              # - /app/is_ready
+

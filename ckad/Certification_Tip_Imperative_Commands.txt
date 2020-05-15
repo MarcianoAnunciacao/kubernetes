@@ -398,3 +398,12 @@ master $
 
 
 With this, we have rolled back to the previous version of the deployment with the image = nginx:1.17.
+
+#Working with Jobs
+kubectl create -f job-definition.yaml
+
+kubectl get jobs
+
+kubectl logs math-add-job-ld18npn
+
+kubectl delete job math-add-job-ld18npn

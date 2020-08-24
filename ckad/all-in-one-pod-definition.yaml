@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: app-pod
+  labels:
+    type: backi-end
+spec:
+  containers:
+    - name: app-containers
+      image: nginx
+      command: ["sleep"]
+      ports:
+        - containerPort: 8080
+      args: ["10"]
+      env:
+       - name: my-env
+         value: ""
+      #or
+      envFrom:
+        - configMapRef:
+            name: configMapName:
+        - secretRef: 
+            name: secretName
+      resources:
+        requests:
+          memory: "1Gi"
+          cpu: 1
+        limits:
+          memory: "2Gi"
+          cpu: 2
+      readinessProbe:
+        httpGet:
+          path: /api/health
+          port: 8080
+        #or
+        tcpSocket:
+          port: 3306
+        #or
+        exec:
+          command:
+            - cat
+        initialDelaySeconds: 10
+        periodSeconds: 5
+        failureThreshold: 5
+      livenessProbe:
+        httpGet:
+          path: /api/healthy
+          port: 8080          
+  securityContext:
+    runAsUser: 1000
+    capabilities:
+      add: ["MAC"]
+  serviceAccount: serviceAccountName
+  autonomousServiceAccountToken: false
+  tolerations:
+    - key: "app"
+      operator: "equal"
+      value: "blue"
+      effect: noSchedule
+  nodeSelector: 
+    size: Large
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: size
+                operator: In/NotIn/Exist
+                values:
+                  - Large  
+                  - Medium                  

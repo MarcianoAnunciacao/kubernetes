@@ -69,3 +69,7 @@ spec:
                 values:
                   - Large  
                   - Medium                  
+  volumes:
+    - name: mypd
+      persistentVolumeClaim:
+        claimName: myclaim                

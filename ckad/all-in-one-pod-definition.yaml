@@ -3,7 +3,7 @@ kind: Pod
 metadata:
   name: app-pod
   labels:
-    type: backi-end
+    type: back-end
 spec:
   containers:
     - name: app-containers
